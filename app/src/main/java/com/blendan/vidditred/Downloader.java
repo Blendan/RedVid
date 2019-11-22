@@ -40,6 +40,8 @@ class Downloader
 			{
 				System.out.print("_");
 			}
+			System.out.print("\n");
+
 
 			while ((ByteRead = is.read(buf)) != -1)
 			{
@@ -53,6 +55,7 @@ class Downloader
 					}
 				}
 			}
+			System.out.print("\n");
 			System.out.println("Downloaded Successfully.");
 			System.out.println("File name:\"" + destinationDir + "\"\nNo ofbytes :" + ByteWritten);
 		}
