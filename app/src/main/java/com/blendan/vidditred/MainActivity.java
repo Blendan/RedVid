@@ -1,14 +1,8 @@
 package com.blendan.vidditred;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Environment;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.Random;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -29,13 +23,8 @@ public class MainActivity extends AppCompatActivity
 			if ("text/plain".equals(type))
 			{
 				System.out.println(intent.getStringExtra(Intent.EXTRA_TEXT));
+				Downloader.fileDownload("https://v.redd.it/zxb48usmsb821/audio?source=fallback", "test.mp4");;
 			}
 		}
-	}
-
-	public boolean isExternalStorageWritable()
-	{
-		String state = Environment.getExternalStorageState();
-		return Environment.MEDIA_MOUNTED.equals(state);
 	}
 }
