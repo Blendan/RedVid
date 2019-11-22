@@ -25,8 +25,9 @@ class Downloader
 			Url = new URL(fAddress);
 			System.out.println(fAddress);
 			System.out.println("\\\\//");
-			System.out.println(Environment.getExternalStorageState()+"/Pictures/ViddtRed/"+destinationDir);
-			outStream = new BufferedOutputStream(new FileOutputStream(Environment.getExternalStorageState()+"/Pictures/ViddtRed/"+destinationDir));
+			String outDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/ViddtRed/" + destinationDir;
+			System.out.println(outDir);
+			outStream = new BufferedOutputStream(new FileOutputStream(outDir));
 
 			uCon = Url.openConnection();
 			is = uCon.getInputStream();
@@ -35,7 +36,7 @@ class Downloader
 			buf = new byte[size];
 			System.out.println("Started Download");
 
-			for (int i = 0; i < 100; i ++)
+			for (int i = 0; i < 100; i++)
 			{
 				System.out.print("_");
 			}
@@ -44,7 +45,7 @@ class Downloader
 			{
 				outStream.write(buf, 0, ByteRead);
 				ByteWritten += ByteRead;
-				if(debug)
+				if (debug)
 				{
 					if (Math.floor((float) ByteWritten / (float) length) > percent)
 					{
