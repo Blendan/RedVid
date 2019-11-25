@@ -1,6 +1,9 @@
 package com.blendan.vidditred;
 
 import android.os.Environment;
+import com.googlecode.mp4parser.FileDataSourceImpl;
+import com.googlecode.mp4parser.authoring.tracks.AACTrackImpl;
+import com.googlecode.mp4parser.authoring.tracks.h264.H264TrackImpl;
 
 import java.io.*;
 import java.net.URL;
@@ -25,6 +28,7 @@ class Downloader
 			Url = new URL(fAddress);
 			System.out.println(fAddress);
 			System.out.println("\\\\//");
+			@SuppressWarnings("deprecation")
 			String outDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/ViddtRed/" + destinationDir;
 			System.out.println(outDir);
 			outStream = new BufferedOutputStream(new FileOutputStream(outDir));
@@ -49,8 +53,9 @@ class Downloader
 				ByteWritten += ByteRead;
 				if (debug)
 				{
-					if (Math.floor((float) ByteWritten / (float) length) > percent)
+					if (Math.floor(((float) ByteWritten / (float) length) * 100) > percent)
 					{
+						percent++;
 						System.out.print("=");
 					}
 				}
