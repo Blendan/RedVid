@@ -19,12 +19,13 @@ class Downloader
 {
 	private final static int size = 1024;
 	private final static boolean debug = true;
+	private final static String folder = "RedVid";
 
-	private static String fileUrl(String fAddress, String destinationDir)
+	private static String fileUrl(String fAddress, String destinationDir, boolean toTemp)
 	{
 		OutputStream outStream = null;
 		URLConnection uCon;
-		String outDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/ViddtRed_temp/" + destinationDir;
+		String outDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + folder + (toTemp ? "_temp/" : "/") + destinationDir;
 
 		InputStream is = null;
 		try
@@ -36,7 +37,7 @@ class Downloader
 			System.out.println(fAddress);
 			System.out.println("\\\\//");
 
-			File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/ViddtRed_temp");
+			File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + folder + (toTemp ? "_temp/" : "/"));
 
 			if (!f.isDirectory())
 			{
@@ -80,12 +81,10 @@ class Downloader
 			System.out.println("Downloaded Successfully.");
 			System.out.println("File name:\"" + destinationDir + "\"\nNo ofbytes :" + ByteWritten);
 			return outDir;
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			e.printStackTrace();
-		}
-		finally
+		} finally
 		{
 			try
 			{
@@ -98,8 +97,7 @@ class Downloader
 				{
 					outStream.close();
 				}
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
@@ -108,7 +106,7 @@ class Downloader
 	}
 
 	@SuppressWarnings("SameParameterValue")
-	static void fileDownload(String fAddress, String destinationDir)
+	static void fileDownload(String fAddress, String destinationDir, boolean isGif)
 	{
 
 		int slashIndex = fAddress.lastIndexOf('/');
@@ -118,22 +116,28 @@ class Downloader
 		{
 			if (isExternalStorageWritable())
 			{
-				String outDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/ViddtRed/" + destinationDir;
-
-
-				String video = fileUrl(fAddress, "video_" + destinationDir);
-				String audio = fileUrl(fAddress.split("/DASH_")[0] + "/audio?source=fallback", "audio_" + destinationDir);
-
-				try
+				if (!isGif)
 				{
-					merge(outDir, video, audio);
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
+					String outDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + folder + "/" + destinationDir;
 
-				cleanup(video, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/ViddtRed_temp/" + "audio_" + destinationDir);
+
+					String video = fileUrl(fAddress, "video_" + destinationDir, true);
+					String audio = fileUrl(fAddress.split("/DASH_")[0] + "/audio?source=fallback", "audio_" + destinationDir ,true);
+
+					try
+					{
+						merge(outDir, video, audio);
+					} catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+
+					cleanup(video, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + folder + "_temp/" + "audio_" + destinationDir);
+				}
+				else
+				{
+					fileUrl(fAddress, destinationDir, false);
+				}
 
 			}
 			else
@@ -155,7 +159,7 @@ class Downloader
 
 	private static void merge(String outDir, String videoDir, String audioDir) throws IOException
 	{
-		File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/ViddtRed");
+		File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + folder);
 
 		if (!f.isDirectory())
 		{
@@ -168,7 +172,7 @@ class Downloader
 		Movie video = MovieCreator.build(videoDir);
 		Movie audio = null;
 
-		if(audioDir != null)
+		if (audioDir != null)
 		{
 			audio = MovieCreator.build(audioDir);
 		}

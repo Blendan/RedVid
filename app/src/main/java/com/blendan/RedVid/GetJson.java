@@ -24,13 +24,22 @@ public class GetJson
 			assert json != null;
 			JSONObject data = (JSONObject) json.get("data");
 			JSONArray children = (JSONArray) data.get("children");
-			JSONObject childrenData = (JSONObject) ((JSONObject) children.get(0)).get("data");
-			JSONObject media = (JSONObject) childrenData.get("media");
-			JSONObject reddit_video = (JSONObject) media.get("reddit_video");
-			this.isGif = (boolean) reddit_video.get("is_gif");
-			System.out.println(isGif);
-			this.videoUrl = (String) reddit_video.get("fallback_url");
-			System.out.println(videoUrl);
+			JSONObject childrenData = (JSONObject) ((JSONObject) children.get(0)).get("data"); //
+
+			if(childrenData.get("post_hint").equals("hosted:video"))
+			{
+				JSONObject media = (JSONObject) childrenData.get("media");
+				JSONObject reddit_video = (JSONObject) media.get("reddit_video");
+				this.videoUrl = (String) reddit_video.get("fallback_url");
+				System.out.println(videoUrl);
+				this.isGif = false;
+			}
+			else if(childrenData.get("post_hint").equals("image"))
+			{
+				this.isGif = true;
+				this.videoUrl = (String) childrenData.get("url");
+			}
+
 
 			this.success = true;
 		}

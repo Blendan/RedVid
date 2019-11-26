@@ -22,9 +22,20 @@ public class BackgroundHandler extends AsyncTask<Void, Void, Void>
 
 		if (video.isSuccess())
 		{
-			String name = "v" + (video.getVideoUrl().split("https://v[.]redd[.]it/")[1].split("/")[0]);
+			String name = "";
+			if(!video.isGif())
+			{
+				name = "v" + (video.getVideoUrl().split("https://v[.]redd[.]it/")[1].split("/")[0]);
+				name += ".mp4";
+			}
+			else
+			{
+				name = "g" + (video.getVideoUrl().split("https://i[.]redd[.]it/")[1].split("/")[0]);
+			}
+
 			System.out.println("name: " + name);
-			Downloader.fileDownload(video.getVideoUrl(), name + ".mp4");
+
+			Downloader.fileDownload(video.getVideoUrl(), name, video.isGif());
 		}
 		else
 		{
