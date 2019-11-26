@@ -26,7 +26,17 @@ public class MainActivity extends AppCompatActivity
 			if ("text/plain".equals(type))
 			{
 				System.out.println(intent.getStringExtra(Intent.EXTRA_TEXT));
-				Downloader.fileDownload("https://v.redd.it/zxb48usmsb821/audio?source=fallback", "test.mp4");;
+
+				GetJson video = new GetJson(intent.getStringExtra(Intent.EXTRA_TEXT));
+
+				if (video.isSuccess())
+				{
+					Downloader.fileDownload(video.getVideoUrl(), "test.mp4");
+				}
+				else
+				{
+					System.err.println("ERROR");
+				}
 			}
 		}
 	}

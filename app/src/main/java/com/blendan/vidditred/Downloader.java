@@ -1,9 +1,6 @@
 package com.blendan.vidditred;
 
 import android.os.Environment;
-import com.googlecode.mp4parser.FileDataSourceImpl;
-import com.googlecode.mp4parser.authoring.tracks.AACTrackImpl;
-import com.googlecode.mp4parser.authoring.tracks.h264.H264TrackImpl;
 
 import java.io.*;
 import java.net.URL;
