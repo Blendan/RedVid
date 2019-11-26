@@ -24,6 +24,7 @@ class Downloader
 	{
 		OutputStream outStream = null;
 		URLConnection uCon;
+		String outDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/ViddtRed_temp/" + destinationDir;
 
 		InputStream is = null;
 		try
@@ -44,8 +45,6 @@ class Downloader
 
 				System.out.println("dir made: " + f.getAbsolutePath());
 			}
-			@SuppressWarnings("deprecation")
-			String outDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/ViddtRed_temp/" + destinationDir;
 			System.out.println(outDir);
 			outStream = new BufferedOutputStream(new FileOutputStream(outDir));
 
@@ -80,7 +79,6 @@ class Downloader
 			System.out.print("\n");
 			System.out.println("Downloaded Successfully.");
 			System.out.println("File name:\"" + destinationDir + "\"\nNo ofbytes :" + ByteWritten);
-			return outDir;
 		}
 		catch (Exception e)
 		{
@@ -90,16 +88,22 @@ class Downloader
 		{
 			try
 			{
-				assert is != null;
-				is.close();
-				outStream.close();
+
+				if (is != null)
+				{
+					is.close();
+				}
+				if (outStream != null)
+				{
+					outStream.close();
+				}
 			}
-			catch (IOException e)
+			catch (Exception e)
 			{
 				e.printStackTrace();
 			}
 		}
-		return null;
+		return outDir;
 	}
 
 	@SuppressWarnings("SameParameterValue")
@@ -121,7 +125,7 @@ class Downloader
 
 				try
 				{
-					test(outDir, video, audio);
+					merge(outDir, video, audio);
 				}
 				catch (IOException e)
 				{
@@ -148,7 +152,7 @@ class Downloader
 		return Environment.MEDIA_MOUNTED.equals(state);
 	}
 
-	private static void test(String outDir, String videoDir, String audioDir) throws IOException
+	private static void merge(String outDir, String videoDir, String audioDir) throws IOException
 	{
 		File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/ViddtRed");
 
@@ -161,20 +165,32 @@ class Downloader
 		}
 
 		Movie video = MovieCreator.build(videoDir);
-		Movie audio = MovieCreator.build(audioDir);
+		Movie audio = null;
+
+		if(audioDir != null)
+		{
+			audio = MovieCreator.build(audioDir);
+		}
 
 		List<Track> videoTracks = video.getTracks();
 		video.setTracks(new LinkedList<Track>());
 
-		List<Track> audioTracks = audio.getTracks();
+		List<Track> audioTracks = null;
+		if (audio != null)
+		{
+			audioTracks = audio.getTracks();
+		}
 
 		for (Track videoTrack : videoTracks)
 		{
 			video.addTrack(new AppendTrack(videoTrack));
 		}
-		for (Track audioTrack : audioTracks)
+		if (audioTracks != null)
 		{
-			video.addTrack(new AppendTrack(audioTrack));
+			for (Track audioTrack : audioTracks)
+			{
+				video.addTrack(new AppendTrack(audioTrack));
+			}
 		}
 
 		Container mp4file = new DefaultMp4Builder().build(video);
