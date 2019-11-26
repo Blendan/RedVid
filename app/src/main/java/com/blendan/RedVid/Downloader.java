@@ -1,4 +1,4 @@
-package com.blendan.vidditred;
+package com.blendan.RedVid;
 
 import android.os.Environment;
 import com.coremedia.iso.boxes.Container;

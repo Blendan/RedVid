@@ -1,4 +1,4 @@
-package com.blendan.vidditred;
+package com.blendan.RedVid;
 
 import android.content.Context;
 import androidx.test.InstrumentationRegistry;

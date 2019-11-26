@@ -1,4 +1,4 @@
-package com.blendan.vidditred;
+package com.blendan.RedVid;
 
 import org.junit.Test;
 

@@ -1,11 +1,7 @@
-package com.blendan.vidditred;
+package com.blendan.RedVid;
 
 import android.annotation.SuppressLint;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import androidx.core.app.NotificationCompat;
 
 public class BackgroundHandler extends AsyncTask<Void, Void, Void>
 {

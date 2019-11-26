@@ -1,4 +1,4 @@
-package com.blendan.vidditred;
+package com.blendan.RedVid;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
