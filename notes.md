@@ -2,11 +2,11 @@
 
 videos can be downloaded by using:
 
-    https://v.redd.it/[KEY]/DASH_2_4_M
+    https://v.redd.it/[KEY]/DASH_2_4_M?source=fallback
 
 example:
 
-    https://v.redd.it/5w5d3n06lzvz/DASH_2_4_M
+    https://v.redd.it/5w5d3n06lzvz/DASH_2_4_M?source=fallback
 
 
 audio can be downloaded with:

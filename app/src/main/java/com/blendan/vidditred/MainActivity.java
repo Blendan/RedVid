@@ -40,9 +40,17 @@ public class MainActivity extends AppCompatActivity
 				}
 				else
 				{
-					final String url = intent.getStringExtra(Intent.EXTRA_TEXT);
-					System.out.println(url);
-					new BackgroundHandler(url, this).execute();
+					if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+							!= PackageManager.PERMISSION_GRANTED)
+					{
+						requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, 1);
+					}
+					else
+					{
+						final String url = intent.getStringExtra(Intent.EXTRA_TEXT);
+						System.out.println(url);
+						new BackgroundHandler(url, this).execute();
+					}
 				}
 			}
 		}
