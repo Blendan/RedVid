@@ -79,6 +79,7 @@ class Downloader
 			System.out.print("\n");
 			System.out.println("Downloaded Successfully.");
 			System.out.println("File name:\"" + destinationDir + "\"\nNo ofbytes :" + ByteWritten);
+			return outDir;
 		}
 		catch (Exception e)
 		{
@@ -103,7 +104,7 @@ class Downloader
 				e.printStackTrace();
 			}
 		}
-		return outDir;
+		return null;
 	}
 
 	@SuppressWarnings("SameParameterValue")
@@ -132,7 +133,7 @@ class Downloader
 					e.printStackTrace();
 				}
 
-				cleanup(video, audio);
+				cleanup(video, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/ViddtRed_temp/" + "audio_" + destinationDir);
 
 			}
 			else

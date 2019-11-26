@@ -1,7 +1,11 @@
 package com.blendan.vidditred;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import androidx.core.app.NotificationCompat;
 
 public class BackgroundHandler extends AsyncTask<Void, Void, Void>
 {
@@ -37,6 +41,24 @@ public class BackgroundHandler extends AsyncTask<Void, Void, Void>
 	protected void onPostExecute(Void aVoid)
 	{
 		super.onPostExecute(aVoid);
+
+		/*
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(main);
+		mBuilder.setSmallIcon(R.drawable.ic_launcher_background);
+		mBuilder.setContentTitle("Notification Alert, Click Me!");
+		mBuilder.setContentText("Hi, This is Android Notification Detail!");
+
+		NotificationManager mNotificationManager = (NotificationManager) main.getSystemService(Context.NOTIFICATION_SERVICE);
+		// notificationID allows you to update the notification later on.
+		if (mNotificationManager != null)
+		{
+			mNotificationManager.notify(1, mBuilder.build());
+			System.out.println("notified");
+		}
+		*/
+
+		//main.sendNotification("Test","test");
 	}
+
 
 }
