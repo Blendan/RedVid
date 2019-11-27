@@ -25,8 +25,6 @@ public class DownloadActivity extends AppCompatActivity
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 
-		finish();
-
 		Intent intent = getIntent();
 		String action = intent.getAction();
 		String type = intent.getType();
@@ -35,8 +33,6 @@ public class DownloadActivity extends AppCompatActivity
 		{
 			if ("text/plain".equals(type))
 			{
-				Toast.makeText(this, "Download started", Toast.LENGTH_LONG).show();
-
 
 				if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 						!= PackageManager.PERMISSION_GRANTED)
@@ -48,10 +44,14 @@ public class DownloadActivity extends AppCompatActivity
 					if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
 							!= PackageManager.PERMISSION_GRANTED)
 					{
-						requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, 1);
+						requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, 2);
 					}
 					else
 					{
+						finish();
+
+						Toast.makeText(this, "Download started", Toast.LENGTH_LONG).show();
+
 						final String url = intent.getStringExtra(Intent.EXTRA_TEXT);
 						System.out.println(url);
 						new BackgroundHandler(url, this).execute();
@@ -64,6 +64,7 @@ public class DownloadActivity extends AppCompatActivity
 	@SuppressWarnings("SameParameterValue")
 	private void requestPermission(String permissionName, int permissionRequestCode)
 	{
+		System.out.println("asked nicely");
 		ActivityCompat.requestPermissions(this, new String[]{permissionName}, permissionRequestCode);
 	}
 }
