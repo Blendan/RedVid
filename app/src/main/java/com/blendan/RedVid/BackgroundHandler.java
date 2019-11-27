@@ -23,9 +23,10 @@ public class BackgroundHandler extends AsyncTask<Void, Void, Boolean>
 
 		if (video.isSuccess())
 		{
-			String name;
+			String name = "";
 			if (!video.isGif())
 			{
+				System.out.println(video.getVideoUrl());
 				name = "v" + (video.getVideoUrl().split("https://v[.]redd[.]it/")[1].split("/")[0]);
 				name += ".mp4";
 			}

@@ -8,28 +8,36 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 
-public class GetJson
+class GetJson
 {
 	private boolean isGif = false;
 	private boolean success = false;
 	private String videoUrl;
 
-	public GetJson(String url)
+	GetJson(String url)
 	{
 		try
 		{
 			url = url.split("[/][?]")[0] + "/.json";
 
-			JSONObject json = readJsonFromUrl(url); //"https://www.reddit.com/r/Rainbow6/comments/acdzqr/all_i_was_thinking_was_how_i_needed_to_keep_my/.json");
+			JSONObject json = readJsonFromUrl(url);
 			assert json != null;
 			JSONObject data = (JSONObject) json.get("data");
 			JSONArray children = (JSONArray) data.get("children");
-			JSONObject childrenData = (JSONObject) ((JSONObject) children.get(0)).get("data"); //
+			JSONObject childrenData = (JSONObject) ((JSONObject) children.get(0)).get("data");
 
 			if(childrenData.get("post_hint").equals("hosted:video"))
 			{
 				JSONObject media = (JSONObject) childrenData.get("media");
 				JSONObject reddit_video = (JSONObject) media.get("reddit_video");
+				this.videoUrl = (String) reddit_video.get("fallback_url");
+				System.out.println(videoUrl);
+				this.isGif = false;
+			}
+			else if(childrenData.get("post_hint").equals("rich:video"))
+			{
+				JSONObject media = (JSONObject) childrenData.get("preview");
+				JSONObject reddit_video = (JSONObject) media.get("reddit_video_preview");
 				this.videoUrl = (String) reddit_video.get("fallback_url");
 				System.out.println(videoUrl);
 				this.isGif = false;
@@ -46,6 +54,12 @@ public class GetJson
 		catch (Exception e)
 		{
 			e.printStackTrace();
+			this.success = false;
+		}
+
+		if(videoUrl == null)
+		{
+			this.success = false;
 		}
 	}
 
@@ -85,17 +99,17 @@ public class GetJson
 		return null;
 	}
 
-	public boolean isGif()
+	boolean isGif()
 	{
 		return isGif;
 	}
 
-	public boolean isSuccess()
+	boolean isSuccess()
 	{
 		return success;
 	}
 
-	public String getVideoUrl()
+	String getVideoUrl()
 	{
 		return videoUrl;
 	}
