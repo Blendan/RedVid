@@ -23,7 +23,7 @@ public class BackgroundHandler extends AsyncTask<Void, Void, Boolean>
 
 		if (video.isSuccess())
 		{
-			String name = "";
+			String name;
 			if (!video.isGif())
 			{
 				System.out.println(video.getVideoUrl());
@@ -52,23 +52,6 @@ public class BackgroundHandler extends AsyncTask<Void, Void, Boolean>
 	{
 		super.onPostExecute(aVoid);
 
-		/*
-		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(main);
-		mBuilder.setSmallIcon(R.drawable.ic_launcher_background);
-		mBuilder.setContentTitle("Notification Alert, Click Me!");
-		mBuilder.setContentText("Hi, This is Android Notification Detail!");
-
-		NotificationManager mNotificationManager = (NotificationManager) main.getSystemService(Context.NOTIFICATION_SERVICE);
-		// notificationID allows you to update the notification later on.
-		if (mNotificationManager != null)
-		{
-			mNotificationManager.notify(1, mBuilder.build());
-			System.out.println("notified");
-		}
-		*/
-
-		//main.sendNotification("Test","test");
-
 		if (aVoid)
 		{
 			Toast.makeText(main, "Download Complete", Toast.LENGTH_LONG).show();
@@ -78,6 +61,4 @@ public class BackgroundHandler extends AsyncTask<Void, Void, Boolean>
 			Toast.makeText(main, "Download Failed", Toast.LENGTH_LONG).show();
 		}
 	}
-
-
 }

@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 class GetJson
 {
 	private boolean isGif = false;
-	private boolean success = false;
+	private boolean success;
 	private String videoUrl;
 
 	GetJson(String url)

@@ -15,6 +15,7 @@ import java.nio.channels.FileChannel;
 import java.util.LinkedList;
 import java.util.List;
 
+@SuppressWarnings("deprecation")
 class Downloader
 {
 	private final static int size = 1024;
@@ -81,10 +82,12 @@ class Downloader
 			System.out.println("Downloaded Successfully.");
 			System.out.println("File name:\"" + destinationDir + "\"\nNo ofbytes :" + ByteWritten);
 			return outDir;
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			e.printStackTrace();
-		} finally
+		}
+		finally
 		{
 			try
 			{
@@ -97,7 +100,8 @@ class Downloader
 				{
 					outStream.close();
 				}
-			} catch (Exception e)
+			}
+			catch (Exception e)
 			{
 				e.printStackTrace();
 			}
@@ -122,12 +126,13 @@ class Downloader
 
 
 					String video = fileUrl(fAddress, "video_" + destinationDir, true);
-					String audio = fileUrl(fAddress.split("/DASH_")[0] + "/audio?source=fallback", "audio_" + destinationDir ,true);
+					String audio = fileUrl(fAddress.split("/DASH_")[0] + "/audio?source=fallback", "audio_" + destinationDir, true);
 
 					try
 					{
 						merge(outDir, video, audio);
-					} catch (IOException e)
+					}
+					catch (IOException e)
 					{
 						e.printStackTrace();
 					}
@@ -163,10 +168,14 @@ class Downloader
 
 		if (!f.isDirectory())
 		{
-			//noinspection ResultOfMethodCallIgnored
-			f.mkdirs();
-
-			System.out.println("dir made: " + f.getAbsolutePath());
+			if (f.mkdirs())
+			{
+				System.out.println("dir made: " + f.getAbsolutePath());
+			}
+			else
+			{
+				System.out.println("create dir failed: " + f.getAbsolutePath());
+			}
 		}
 
 		Movie video = MovieCreator.build(videoDir);
