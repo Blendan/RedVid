@@ -2,8 +2,9 @@ package com.blendan.RedVid;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
-public class BackgroundHandler extends AsyncTask<Void, Void, Void>
+public class BackgroundHandler extends AsyncTask<Void, Void, Boolean>
 {
 	@SuppressLint("StaticFieldLeak")
 	private MainActivity main;
@@ -16,14 +17,14 @@ public class BackgroundHandler extends AsyncTask<Void, Void, Void>
 	}
 
 	@Override
-	protected Void doInBackground(Void... voids)
+	protected Boolean doInBackground(Void... voids)
 	{
 		GetJson video = new GetJson(url);
 
 		if (video.isSuccess())
 		{
 			String name = "";
-			if(!video.isGif())
+			if (!video.isGif())
 			{
 				name = "v" + (video.getVideoUrl().split("https://v[.]redd[.]it/")[1].split("/")[0]);
 				name += ".mp4";
@@ -40,12 +41,13 @@ public class BackgroundHandler extends AsyncTask<Void, Void, Void>
 		else
 		{
 			System.err.println("ERROR");
+			return false;
 		}
-		return null;
+		return true;
 	}
 
 	@Override
-	protected void onPostExecute(Void aVoid)
+	protected void onPostExecute(Boolean aVoid)
 	{
 		super.onPostExecute(aVoid);
 
@@ -65,6 +67,15 @@ public class BackgroundHandler extends AsyncTask<Void, Void, Void>
 		*/
 
 		//main.sendNotification("Test","test");
+
+		if (aVoid)
+		{
+			Toast.makeText(main, "Download Complete", Toast.LENGTH_LONG).show();
+		}
+		else
+		{
+			Toast.makeText(main, "Download Failed", Toast.LENGTH_LONG).show();
+		}
 	}
 
 
