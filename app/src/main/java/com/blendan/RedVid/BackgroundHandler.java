@@ -3,14 +3,15 @@ package com.blendan.RedVid;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class BackgroundHandler extends AsyncTask<Void, Void, Boolean>
 {
 	@SuppressLint("StaticFieldLeak")
-	private MainActivity main;
+	private AppCompatActivity main;
 	private String url;
 
-	BackgroundHandler(String url, MainActivity main)
+	BackgroundHandler(String url, AppCompatActivity main)
 	{
 		this.url = url;
 		this.main = main;

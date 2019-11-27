@@ -23,37 +23,6 @@ public class MainActivity extends AppCompatActivity
 
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
-
-		Intent intent = getIntent();
-		String action = intent.getAction();
-		String type = intent.getType();
-
-		if (Intent.ACTION_SEND.equals(action) && type != null)
-		{
-			if ("text/plain".equals(type))
-			{
-
-				if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-						!= PackageManager.PERMISSION_GRANTED)
-				{
-					requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1);
-				}
-				else
-				{
-					if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-							!= PackageManager.PERMISSION_GRANTED)
-					{
-						requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, 1);
-					}
-					else
-					{
-						final String url = intent.getStringExtra(Intent.EXTRA_TEXT);
-						System.out.println(url);
-						new BackgroundHandler(url, this).execute();
-					}
-				}
-			}
-		}
 	}
 
 	@SuppressWarnings("SameParameterValue")
