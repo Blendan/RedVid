@@ -34,7 +34,7 @@ class GetJson
 				System.out.println(videoUrl);
 				this.isGif = false;
 			}
-			else if(childrenData.get("post_hint").equals("rich:video"))
+			else if(childrenData.get("post_hint").equals("rich:video")||childrenData.get("post_hint").equals("link"))
 			{
 				JSONObject media = (JSONObject) childrenData.get("preview");
 				JSONObject reddit_video = (JSONObject) media.get("reddit_video_preview");
