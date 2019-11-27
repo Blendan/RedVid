@@ -19,7 +19,6 @@ import java.util.List;
 class Downloader
 {
 	private final static int size = 1024;
-	private final static boolean debug = true;
 	private final static String folder = "RedVid";
 
 	private static String fileUrl(String fAddress, String destinationDir, boolean toTemp)
@@ -52,8 +51,6 @@ class Downloader
 
 			uCon = Url.openConnection();
 			is = uCon.getInputStream();
-			int length = is.available();
-			int percent = 0;
 			buf = new byte[size];
 			System.out.println("Started Download");
 
@@ -69,14 +66,6 @@ class Downloader
 			{
 				outStream.write(buf, 0, ByteRead);
 				ByteWritten += ByteRead;
-				if (debug)
-				{
-					if (Math.floor(((float) ByteWritten / (float) length) * 100) > percent)
-					{
-						percent++;
-						System.out.print("=");
-					}
-				}
 			}
 			System.out.print("\n");
 			System.out.println("Downloaded Successfully.");
