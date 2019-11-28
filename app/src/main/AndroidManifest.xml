@@ -17,14 +17,15 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <activity android:name=".DownloadActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:mimeType="text/plain"/>
                 <category android:name="android.intent.category.ALTERNATIVE"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".DownloadActivity">
+
         </activity>
     </application>
 </manifest>

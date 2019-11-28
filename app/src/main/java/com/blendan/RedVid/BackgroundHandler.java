@@ -10,11 +10,18 @@ public class BackgroundHandler extends AsyncTask<Void, Void, Boolean>
 	@SuppressLint("StaticFieldLeak")
 	private AppCompatActivity main;
 	private String url;
+	private StatusDownload status;
 
 	BackgroundHandler(String url, AppCompatActivity main)
 	{
 		this.url = url;
 		this.main = main;
+	}
+
+	@Override
+	protected void onPreExecute()
+	{
+		status = DownloadListHandler.getNewStatus(url, main);
 	}
 
 	@Override
@@ -38,6 +45,9 @@ public class BackgroundHandler extends AsyncTask<Void, Void, Boolean>
 
 			System.out.println("name: " + name);
 
+			status.setName(name);
+			status.setUrl(video.getVideoUrl());
+
 			Downloader.fileDownload(video.getVideoUrl(), name, video.isGif());
 		}
 		else
@@ -56,10 +66,14 @@ public class BackgroundHandler extends AsyncTask<Void, Void, Boolean>
 		if (aVoid)
 		{
 			Toast.makeText(main, "Download Complete", Toast.LENGTH_LONG).show();
+			status.success();
 		}
 		else
 		{
 			Toast.makeText(main, "Download Failed", Toast.LENGTH_LONG).show();
+			status.failed();
 		}
+
+		DownloadListHandler.refresh(main);
 	}
 }

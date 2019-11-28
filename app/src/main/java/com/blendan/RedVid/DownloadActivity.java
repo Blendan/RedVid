@@ -25,6 +25,20 @@ public class DownloadActivity extends AppCompatActivity
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+				!= PackageManager.PERMISSION_GRANTED)
+		{
+			requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1);
+		}
+		else
+		{
+			if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+					!= PackageManager.PERMISSION_GRANTED)
+			{
+				requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, 1);
+			}
+		}
+
 		Intent intent = getIntent();
 		String action = intent.getAction();
 		String type = intent.getType();
