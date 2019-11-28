@@ -26,15 +26,18 @@ class GetJson
 			JSONArray children = (JSONArray) data.get("children");
 			JSONObject childrenData = (JSONObject) ((JSONObject) children.get(0)).get("data");
 
-			if(childrenData.get("post_hint").equals("hosted:video"))
+			String postHint = "";
+
+			try
 			{
-				JSONObject media = (JSONObject) childrenData.get("media");
-				JSONObject reddit_video = (JSONObject) media.get("reddit_video");
-				this.videoUrl = (String) reddit_video.get("fallback_url");
-				System.out.println(videoUrl);
-				this.isGif = false;
+				postHint = (String) childrenData.get("post_hint");
 			}
-			else if(childrenData.get("post_hint").equals("rich:video")||childrenData.get("post_hint").equals("link"))
+			catch (Exception e)
+			{
+				System.err.println("No post_hint found");
+			}
+
+			if (postHint.equals("rich:video") || postHint.equals("link"))
 			{
 				JSONObject media = (JSONObject) childrenData.get("preview");
 				JSONObject reddit_video = (JSONObject) media.get("reddit_video_preview");
@@ -42,10 +45,18 @@ class GetJson
 				System.out.println(videoUrl);
 				this.isGif = false;
 			}
-			else if(childrenData.get("post_hint").equals("image"))
+			else if (postHint.equals("image"))
 			{
 				this.isGif = true;
 				this.videoUrl = (String) childrenData.get("url");
+			}
+			else
+			{
+				JSONObject media = (JSONObject) childrenData.get("media");
+				JSONObject reddit_video = (JSONObject) media.get("reddit_video");
+				this.videoUrl = (String) reddit_video.get("fallback_url");
+				System.out.println(videoUrl);
+				this.isGif = false;
 			}
 
 
@@ -57,7 +68,7 @@ class GetJson
 			this.success = false;
 		}
 
-		if(videoUrl == null)
+		if (videoUrl == null)
 		{
 			this.success = false;
 		}
@@ -76,7 +87,7 @@ class GetJson
 
 	private static JSONObject readJsonFromUrl(@SuppressWarnings("SameParameterValue") String url)
 	{
-		System.out.println("URL: "+ url);
+		System.out.println("URL: " + url);
 
 		try
 		{
