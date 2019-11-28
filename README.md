@@ -4,7 +4,7 @@
 
 after installing the app simply press the share button on a video in hte reddit app and select RedVid after that the video will be downloaded with sound.
 
-When de download is finished a small text will appear on the bottom middle of the screen to tell you if it was succsessfull or not.
+When de download is finished a small text will appear on the bottom middle of the screen to tell you if it was successful or not.
 
 ### whats working:
 - videos with sound and without sound
