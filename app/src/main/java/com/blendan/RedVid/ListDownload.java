@@ -42,6 +42,7 @@ public class ListDownload extends ArrayAdapter<StatusDownload>
 		else if (current.getStatus().equals("FAILED"))
 		{
 			statusColor = Color.RED;
+			txtStatus.setText(current.getStatus()+": "+current.getError());
 		}
 
 		txtStatus.setTextColor(statusColor);

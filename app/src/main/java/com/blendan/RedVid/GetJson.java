@@ -31,8 +31,7 @@ class GetJson
 			try
 			{
 				postHint = (String) childrenData.get("post_hint");
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				System.err.println("No post_hint found");
 			}
@@ -61,8 +60,7 @@ class GetJson
 
 
 			this.success = true;
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			e.printStackTrace();
 			this.success = false;
@@ -101,8 +99,7 @@ class GetJson
 				//System.out.println("{"+jsonText+"}");
 				return new JSONObject(jsonText.substring(1, jsonText.length() - 1));
 			}
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}

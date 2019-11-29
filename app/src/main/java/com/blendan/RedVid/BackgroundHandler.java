@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.concurrent.ExecutionException;
+
 public class BackgroundHandler extends AsyncTask<Void, Void, Boolean>
 {
 	@SuppressLint("StaticFieldLeak")
@@ -31,27 +33,40 @@ public class BackgroundHandler extends AsyncTask<Void, Void, Boolean>
 
 		if (video.isSuccess())
 		{
-			String name;
-			if (!video.isGif())
+			try
 			{
-				System.out.println(video.getVideoUrl());
-				name = "v" + (video.getVideoUrl().split("https://v[.]redd[.]it/")[1].split("/")[0]);
-				name += ".mp4";
+				status.downloading();
+				main.runOnUiThread(() -> DownloadListHandler.refresh(main));
+
+				String name;
+				if (!video.isGif())
+				{
+					System.out.println(video.getVideoUrl());
+					name = "v" + (video.getVideoUrl().split("https://v[.]redd[.]it/")[1].split("/")[0]);
+					name += ".mp4";
+				}
+				else
+				{
+					name = "g" + (video.getVideoUrl().split("https://i[.]redd[.]it/")[1].split("/")[0]);
+				}
+
+				System.out.println("name: " + name);
+
+				status.setName(name);
+				status.setUrl(video.getVideoUrl());
+				main.runOnUiThread(() -> DownloadListHandler.refresh(main));
+
+				Downloader.fileDownload(video.getVideoUrl(), name, video.isGif());
 			}
-			else
+			catch (Exception e)
 			{
-				name = "g" + (video.getVideoUrl().split("https://i[.]redd[.]it/")[1].split("/")[0]);
+				status.setError("Connection lost");
+				return false;
 			}
-
-			System.out.println("name: " + name);
-
-			status.setName(name);
-			status.setUrl(video.getVideoUrl());
-
-			Downloader.fileDownload(video.getVideoUrl(), name, video.isGif());
 		}
 		else
 		{
+			status.setError("404 file not found");
 			System.err.println("ERROR");
 			return false;
 		}

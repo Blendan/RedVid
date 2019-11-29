@@ -2,13 +2,13 @@ package com.blendan.RedVid;
 
 public class StatusDownload
 {
-	private String url, name, status;
+	private String url, name, status, error;
 
 	StatusDownload(String url, String name)
 	{
 		this.url = url;
 		this.name = name;
-		this.status = "Downloading ...";
+		this.status = "Connecting...";
 	}
 
 	void failed()
@@ -18,7 +18,12 @@ public class StatusDownload
 
 	void success()
 	{
-		this.status="FINISHED";
+		this.status = "FINISHED";
+	}
+
+	void downloading()
+	{
+		this.status = "Downloading...";
 	}
 
 	public String getUrl()
@@ -44,5 +49,15 @@ public class StatusDownload
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+
+	public String getError()
+	{
+		return error;
+	}
+
+	public void setError(String error)
+	{
+		this.error = error;
 	}
 }

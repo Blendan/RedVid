@@ -12,7 +12,8 @@ class DownloadListHandler
 	static StatusDownload getNewStatus(String url, AppCompatActivity context)
 	{
 		StatusDownload temp = new StatusDownload(url, "loading...");
-		getListDownload(context).add(temp);
+		statusDownloads.add(0,temp);
+		getListDownload(context).notifyDataSetChanged();
 		return temp;
 	}
 
@@ -32,8 +33,6 @@ class DownloadListHandler
 
 	static void refresh(AppCompatActivity context)
 	{
-		ArrayList<StatusDownload> temp = new ArrayList<>(statusDownloads);
-		getListDownload(context).clear();
-		getListDownload(context).addAll(temp);
+		getListDownload(context).notifyDataSetChanged();
 	}
 }
